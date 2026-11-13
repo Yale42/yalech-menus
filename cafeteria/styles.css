@@ -1,0 +1,54 @@
+/* Brisa Café · claro y cálido: crema, café y terracota. La estructura está en ../base.css. */
+:root {
+  --bg: #fbf6ef;
+  --card: #f3e9db;
+  --card-2: #e9dac4;
+  --line: rgba(43, 29, 20, 0.12);
+  --text: #2b1d14;
+  --muted: rgba(43, 29, 20, 0.62);
+  --accent: #c0643a;
+  --accent-dark: #a14f2a;
+  --on-accent: #fff;
+  --price: #9a4b26;
+  --chip-on-bg: #2b1d14;
+  --chip-on-text: #fbf6ef;
+  --display: "DM Serif Display", Georgia, serif;
+  --sans: "DM Sans", system-ui, sans-serif;
+  --radius: 20px;
+}
+
+/* Portada: foto redondeada y marca en serif */
+.top-inner { display: grid; gap: 16px; max-width: 760px; margin: 0 auto; padding: 16px 16px 18px; }
+.top-photo { overflow: hidden; border-radius: 28px; aspect-ratio: 16 / 10; }
+.top-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 45%; animation: settle 1.4s var(--ease) both; }
+@keyframes settle { from { scale: 1.08; } }
+.logo { font-family: var(--display); font-size: clamp(3rem, 15vw, 4.2rem); line-height: 0.9; letter-spacing: -0.02em; }
+.logo em { margin-left: 6px; font-size: 0.42em; color: var(--accent); vertical-align: 0.9em; }
+.logo-sub { margin-top: 6px; font-size: 0.9rem; color: var(--muted); }
+.chip { background: var(--card); }
+.chip--mesa { background: var(--text); color: var(--bg); }
+.quick-btn { background: #fff; }
+
+.cat-title { font-weight: 400; font-size: 2rem; }
+.cat-title::after { content: " ·"; color: var(--accent); }
+.tabs a { font-family: var(--sans); font-weight: 700; font-size: 0.98rem; }
+.dish-btn { background: #fff; box-shadow: 0 10px 24px -20px rgba(43, 29, 20, 0.5); }
+.tag--top { color: #a86a00; background: #fbecc8; }
+.tag--frio { color: #1d6c8c; background: #dcf0f8; }
+.tag--veg { color: #2f7d3a; background: #e2f2df; }
+.sheet-title, .sum strong { font-weight: 400; }
+
+/* Nuestro café */
+.story { max-width: 728px; margin: 30px auto 0; padding: 28px 22px; border-radius: 28px; background: var(--text); color: var(--bg); }
+.story-kicker { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: #e9a27c; }
+.story h2 { margin-top: 8px; font-family: var(--display); font-weight: 400; font-size: clamp(1.8rem, 7vw, 2.4rem); line-height: 1.1; }
+.story-facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 20px; list-style: none; }
+.story-facts li { padding: 12px 10px; border-radius: 14px; background: rgba(251, 246, 239, 0.08); }
+.story-facts strong { display: block; font-family: var(--display); font-weight: 400; font-size: 1.25rem; }
+.story-facts span { font-size: 0.78rem; opacity: 0.7; }
+.story-note { margin-top: 16px; font-size: 0.9rem; opacity: 0.75; }
+@media (max-width: 759px) { .story { margin-inline: 16px; } }
+@media (min-width: 760px) {
+  .top-inner { grid-template-columns: 1.2fr 1fr; align-items: end; padding-top: 28px; }
+  .top-photo { grid-row: span 3; }
+}

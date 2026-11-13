@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Menú · Brisa Café</title>
+  <meta name="description" content="Café de especialidad, desayunos y pan recién horneado en Guadalajara. Pide desde tu mesa o para llevar." />
+  <meta name="theme-color" content="#fbf6ef" />
+  <!-- Vista previa al compartir (WhatsApp, Facebook…). Al publicar, cambia la ruta de la imagen
+       por la URL completa, ej. https://tudominio.com/assets/og.jpg -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Menú · Brisa Café" />
+  <meta property="og:description" content="Café de especialidad, desayunos y pan recién horneado en Guadalajara. Pide desde tu mesa o para llevar." />
+  <meta property="og:image" content="assets/og.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700;9..40,800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="../base.css?v=1" />
+  <link rel="stylesheet" href="styles.css?v=1" />
+</head>
+<body>
+  <!-- Menú digital de ejemplo (cafetería ficticia). Fotos de Unsplash, uso libre.
+       Platillos, precios, horario y WhatsApp están en menu.js (el funcionamiento, en ../comun.js).
+       El QR de cada mesa lleva su número: index.html?mesa=7 -->
+
+  <!-- ========== Portada ========== -->
+  <header class="top">
+    <div class="top-inner">
+      <div class="top-photo"><img src="assets/portada.jpg" alt="Barista sirviendo un latte con arte" /></div>
+      <div class="brand">
+        <p class="logo">brisa<em>café</em></p>
+        <p class="logo-sub">Café de especialidad · Guadalajara</p>
+      </div>
+      <div class="chips-row">
+        <span class="chip chip--status" data-status>Abierto</span>
+        <span class="chip chip--mesa" data-mesa hidden><i class="fa-solid fa-chair"></i> <span></span></span>
+      </div>
+      <div class="quick">
+        <button class="quick-btn" type="button" data-wifi><i class="fa-solid fa-wifi"></i><span>Wi‑Fi</span></button>
+        <a class="quick-btn" data-mesero target="_blank" rel="noopener"><i class="fa-solid fa-bell-concierge"></i><span>Llamar mesero</span></a>
+        <a class="quick-btn" href="https://maps.google.com/?q=Cafe+Colonia+Americana+Guadalajara" target="_blank" rel="noopener"><i class="fa-solid fa-star"></i><span>Reseñar</span></a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========== Buscar, filtros y categorías (se quedan fijos arriba) ========== -->
+  <div class="bar">
+    <div class="bar-inner">
+      <label class="search">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="search" placeholder="Buscar en el menú" aria-label="Buscar en el menú" data-search />
+      </label>
+      <div class="filters" role="group" aria-label="Filtros" data-filters></div>
+      <nav class="tabs" aria-label="Categorías" data-tabs></nav>
+    </div>
+  </div>
+
+  <main class="menu" data-menu>
+    <!-- Lo arma ../comun.js con los platillos de menu.js -->
+  </main>
+  <p class="empty" data-empty hidden>No encontramos nada con eso. Prueba con otra palabra.</p>
+
+  <!-- ========== Nuestro café ========== -->
+  <section class="story">
+    <p class="story-kicker">Nuestro grano</p>
+    <h2>Café de Chiapas, tostado aquí cada semana.</h2>
+    <ul class="story-facts">
+      <li><strong>1,400 m</strong><span>de altura</span></li>
+      <li><strong>Lavado</strong><span>proceso</span></li>
+      <li><strong>Notas</strong><span>cacao y naranja</span></li>
+    </ul>
+    <p class="story-note">También lo vendemos en grano o molido: 250 g por $210. Pregunta en barra.</p>
+  </section>
+
+  <footer class="foot">
+    <p><strong>Brisa Café</strong> · Av. Chapultepec 215, Guadalajara</p>
+    <p>Lunes a domingo de 7:00 AM a 9:00 PM</p>
+    <p class="foot-note">Precios en pesos, con IVA incluido.</p>
+    <a class="credit" href="../../">Menú de yalech →</a>
+  </footer>
+
+  <!-- ========== Barra del pedido ========== -->
+  <button class="orderbar" type="button" data-open-order hidden>
+    <span class="orderbar-count" data-count>0</span>
+    <span>Ver mi pedido</span>
+    <strong data-total>$0</strong>
+  </button>
+
+  <!-- ========== Hoja de platillo ========== -->
+  <dialog class="sheet" id="dish" aria-labelledby="dish-name">
+    <form method="dialog" class="sheet-inner" data-dish-form tabindex="-1" autofocus>
+      <button class="sheet-close" value="cancel" aria-label="Cerrar"><i class="fa-solid fa-xmark"></i></button>
+      <img class="sheet-img" alt="" data-dish-img hidden src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" />
+      <div class="sheet-body">
+        <div class="sheet-tags" data-dish-tags></div>
+        <h2 class="sheet-title" id="dish-name" data-dish-name></h2>
+        <p class="sheet-desc" data-dish-desc></p>
+        <div data-dish-options></div>
+        <label class="note">
+          <span>¿Alguna indicación?</span>
+          <input name="nota" maxlength="80" placeholder="Ej. extra caliente, sin azúcar" />
+        </label>
+      </div>
+      <div class="sheet-foot">
+        <div class="stepper">
+          <button type="button" data-step="-1" aria-label="Uno menos"><i class="fa-solid fa-minus"></i></button>
+          <output data-qty>1</output>
+          <button type="button" data-step="1" aria-label="Uno más"><i class="fa-solid fa-plus"></i></button>
+        </div>
+        <button class="btn btn--accent" value="add" data-add>Agregar <span data-dish-total></span></button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- ========== Hoja del pedido ========== -->
+  <dialog class="sheet" id="order" aria-labelledby="order-title">
+    <form class="sheet-inner" data-order-form tabindex="-1" autofocus>
+      <button class="sheet-close" type="button" data-close aria-label="Cerrar"><i class="fa-solid fa-xmark"></i></button>
+      <div class="sheet-body">
+        <h2 class="sheet-title" id="order-title">Tu pedido</h2>
+        <ul class="lines" data-lines></ul>
+        <div data-entrega></div>
+        <div class="where">
+          <label class="field">
+            <span>Mesa</span>
+            <input name="mesa" inputmode="numeric" maxlength="3" placeholder="Ej. 7" />
+          </label>
+          <label class="field">
+            <span>Tu nombre</span>
+            <input name="nombre" maxlength="40" placeholder="Opcional" autocomplete="given-name" />
+          </label>
+        </div>
+        <p class="form-error" hidden></p>
+      </div>
+      <div class="sheet-foot sheet-foot--order">
+        <div class="sum"><span>Total</span><strong data-order-total>$0</strong></div>
+        <button class="btn btn--accent" type="submit"><i class="fa-brands fa-whatsapp"></i> Enviar pedido</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div class="toast" role="status" aria-live="polite" data-toast></div>
+
+  <script src="../../assets/motion.js"></script>
+  <script src="menu.js?v=1"></script>
+  <script src="../comun.js?v=1"></script>
+</body>
+</html>
