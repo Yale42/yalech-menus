@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>QR para tus mesas · Menús de @yalech</title>
+  <meta name="description" content="Genera e imprime el QR de cada mesa: cada uno abre tu menú con su número de mesa." />
+  <meta name="theme-color" content="#f5f0e8" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    :root { --bg: #f5f0e8; --ink: #0e0f10; --muted: #6a645b; --line: rgba(14, 15, 16, 0.12); --amber: #f2a65a; --font: "Schibsted Grotesk", system-ui, sans-serif; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font); color: var(--ink); background: var(--bg); -webkit-font-smoothing: antialiased; }
+    [hidden] { display: none !important; }
+    button, input, select { font: inherit; color: inherit; }
+    :focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+    .wrap { width: min(100% - 32px, 920px); margin: 0 auto; padding: 28px 0 60px; }
+    .back { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; text-decoration: none; color: var(--ink); }
+    h1 { margin-top: 22px; font-size: clamp(2rem, 8vw, 3rem); line-height: 1.05; letter-spacing: -0.03em; }
+    h1 em { font-style: normal; background: linear-gradient(transparent 60%, rgba(242, 166, 90, 0.55) 60%); }
+    .lead { margin-top: 10px; max-width: 560px; color: var(--muted); }
+    .form { display: grid; gap: 14px; margin-top: 26px; padding: 20px; border-radius: 18px; background: #fffdf9; border: 1px solid var(--line); }
+    .field { display: grid; gap: 6px; min-width: 0; }
+    .field span { font-weight: 600; font-size: 0.92rem; }
+    .field small { color: var(--muted); font-weight: 400; }
+    .field input, .field select { width: 100%; padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px; background: #fff; font-size: 1rem; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .error { color: #c0392b; font-weight: 600; }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 10px 20px; border: 1px solid var(--ink); border-radius: 99px; background: none; font-weight: 600; cursor: pointer; text-decoration: none; }
+    .btn--solid { background: var(--ink); color: var(--bg); }
+    .btn--solid:hover { background: var(--amber); border-color: var(--amber); color: var(--ink); }
+    .sheet { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; margin-top: 24px; }
+    .card { display: grid; justify-items: center; gap: 6px; padding: 16px 14px 14px; border-radius: 16px; background: #fff; border: 1px dashed rgba(14, 15, 16, 0.3); text-align: center; break-inside: avoid; }
+    .card-name { font-weight: 700; font-size: 0.95rem; }
+    .card-qr { width: 100%; max-width: 170px; aspect-ratio: 1; }
+    .card-qr svg { width: 100%; height: 100%; display: block; }
+    .card-mesa { font-weight: 700; font-size: 1.6rem; letter-spacing: -0.02em; }
+    .card-hint { font-size: 0.78rem; color: var(--muted); }
+    .count { margin-top: 18px; color: var(--muted); font-size: 0.92rem; }
+    @media (max-width: 520px) { .row { grid-template-columns: 1fr; } .sheet { grid-template-columns: 1fr 1fr; } .card-mesa { font-size: 1.3rem; } }
+    /* Al imprimir solo salen las tarjetas, 3 por fila en carta o A4 */
+    @media print {
+      body { background: #fff; }
+      .no-print { display: none !important; }
+      .wrap { width: 100%; padding: 0; }
+      .sheet { grid-template-columns: repeat(3, 1fr); gap: 8mm; margin: 0; }
+      .card { border-color: #999; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Generador de QR por mesa. Cada QR abre el menú con su número: menu/?mesa=7.
+       Usa una copia local de qrcode-generator (assets/qrcode.min.js, licencia MIT). -->
+  <div class="wrap">
+    <div class="no-print">
+      <a class="back" href="./"><i class="fa-solid fa-arrow-left"></i> Menús de ejemplo</a>
+      <h1>El QR de <em>cada mesa,</em> listo para imprimir.</h1>
+      <p class="lead">Cada código abre tu menú con el número de mesa ya puesto, así el pedido llega a WhatsApp diciendo de qué mesa es.</p>
+
+      <form class="form" data-form novalidate>
+        <div class="row">
+          <label class="field">
+            <span>Menú</span>
+            <select name="menu">
+              <option value="taqueria/">Taquería</option>
+              <option value="cafeteria/">Cafetería</option>
+              <option value="pizzeria/">Pizzería</option>
+              <option value="mariscos/">Marisquería</option>
+              <option value="bar/">Bar / cantina</option>
+              <option value="sushi/">Sushi</option>
+              <option value="fonda/">Fonda</option>
+              <option value="otro">Otro (pega tu enlace)</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>¿Cuántas mesas? <small>(1 a 60)</small></span>
+            <input name="mesas" type="number" inputmode="numeric" min="1" max="60" value="12" />
+          </label>
+        </div>
+        <label class="field" data-otro hidden>
+          <span>Enlace de tu menú</span>
+          <input name="url" type="url" inputmode="url" placeholder="https://tumenu.com/" maxlength="200" />
+        </label>
+        <label class="field">
+          <span>Nombre del negocio <small>(sale arriba de cada QR)</small></span>
+          <input name="nombre" maxlength="40" value="Taquería El Fogón" />
+        </label>
+        <p class="error" data-error hidden></p>
+        <div class="actions">
+          <button class="btn btn--solid" type="submit"><i class="fa-solid fa-qrcode"></i> Generar QR</button>
+          <button class="btn" type="button" data-print hidden><i class="fa-solid fa-print"></i> Imprimir</button>
+        </div>
+      </form>
+      <p class="count" data-count aria-live="polite"></p>
+    </div>
+
+    <div class="sheet" data-sheet></div>
+  </div>
+
+  <script src="assets/qrcode.min.js"></script>
+  <script>
+    (() => {
+      const form = document.querySelector('[data-form]');
+      const hoja = document.querySelector('[data-sheet]');
+      const error = document.querySelector('[data-error]');
+      const otro = document.querySelector('[data-otro]');
+      const imprimir = document.querySelector('[data-print]');
+      const cuenta = document.querySelector('[data-count]');
+
+      form.menu.addEventListener('change', () => { otro.hidden = form.menu.value !== 'otro'; });
+      imprimir.addEventListener('click', () => print());
+
+      // Dirección del menú: uno de los ejemplos (junto a esta página) o un enlace http(s) válido
+      const direccion = () => {
+        if (form.menu.value !== 'otro') return new URL(form.menu.value, location.href);
+        try {
+          const u = new URL(form.url.value.trim());
+          return /^https?:$/.test(u.protocol) ? u : null;
+        } catch { return null; }
+      };
+
+      form.addEventListener('submit', ev => {
+        ev.preventDefault();
+        const base = direccion();
+        const n = parseInt(form.mesas.value, 10);
+        const fallo = !base ? 'Pega un enlace que empiece con https://' : !(n >= 1 && n <= 60) ? 'Escribe un número de mesas del 1 al 60.' : '';
+        error.textContent = fallo;
+        error.hidden = !fallo;
+        if (fallo) return;
+
+        const nombre = form.nombre.value.trim().slice(0, 40);
+        hoja.replaceChildren(...Array.from({ length: n }, (_, i) => {
+          const u = new URL(base);
+          u.searchParams.set('mesa', i + 1);
+          const qr = qrcode(0, 'M');
+          qr.addData(u.href);
+          qr.make();
+          const card = document.createElement('div');
+          card.className = 'card';
+          card.innerHTML = '<p class="card-name"></p><div class="card-qr"></div><p class="card-mesa"></p><p class="card-hint">Escanea para ver el menú y pedir</p>';
+          card.querySelector('.card-name').textContent = nombre;
+          card.querySelector('.card-name').hidden = !nombre;
+          card.querySelector('.card-qr').innerHTML = qr.createSvgTag({ cellSize: 5, margin: 1, scalable: true });
+          card.querySelector('.card-mesa').textContent = `Mesa ${i + 1}`;
+          card.dataset.url = u.href;
+          return card;
+        }));
+        imprimir.hidden = false;
+        cuenta.textContent = `${n} ${n === 1 ? 'QR listo' : 'QR listos'}. Imprímelos en papel adhesivo o enmícalos para cada mesa.`;
+      });
+    })();
+  </script>
+</body>
+</html>
