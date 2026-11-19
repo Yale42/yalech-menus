@@ -50,3 +50,6 @@ const PLATILLOS = [
   { id: 'limonada', cat: 'bebidas', nombre: 'Limonada de jengibre', precio: 55, tags: ['veg'], desc: 'Con un toque de miel.' },
   { id: 'sake', cat: 'bebidas', nombre: 'Sake', precio: 120, tags: [], desc: 'Botellita de 180 ml, caliente o frío.' },
 ];
+
+// «Armar mi rollo» abre directo el platillo para armarlo (sin JavaScript, el enlace baja a la sección)
+document.querySelector('[data-armar]')?.addEventListener('click', e => { e.preventDefault(); abrirPlatillo('arma-tu-rollo'); });
