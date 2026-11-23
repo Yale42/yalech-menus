@@ -256,3 +256,6 @@ button { cursor: pointer; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition-duration: 0.01s !important; }
 }
+
+/* El nombre es el título principal (h1) pero se ve como el logo */
+:where(h1.logo) { margin: 0; }

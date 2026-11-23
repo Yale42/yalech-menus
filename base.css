@@ -157,3 +157,6 @@ button { cursor: pointer; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition-duration: 0.01s !important; }
 }
+
+/* El nombre del negocio es el título principal (h1) pero se ve como el logo de cada menú */
+:where(h1.logo) { margin: 0; font-weight: normal; }
