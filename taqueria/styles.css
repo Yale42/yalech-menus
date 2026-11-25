@@ -259,3 +259,6 @@ button { cursor: pointer; }
 
 /* El nombre es el título principal (h1) pero se ve como el logo */
 :where(h1.logo) { margin: 0; }
+
+/* La carta la arma comun.js: mientras tanto se le reserva espacio para que lo de abajo no brinque */
+.menu:not(:has(*)) { min-height: 100vh; }

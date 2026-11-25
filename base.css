@@ -160,3 +160,6 @@ button { cursor: pointer; }
 
 /* El nombre del negocio es el título principal (h1) pero se ve como el logo de cada menú */
 :where(h1.logo) { margin: 0; font-weight: normal; }
+
+/* La carta la arma comun.js: mientras tanto se le reserva espacio para que lo de abajo no brinque */
+.menu:not(:has(*)) { min-height: 100vh; }
